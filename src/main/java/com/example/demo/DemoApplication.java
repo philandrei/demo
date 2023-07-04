@@ -32,8 +32,33 @@ public class DemoApplication {
 //            z = x;
 //            x = res;
 //        }
+//        System.out.println(lengthOfLastWord("Hello World "));
+        String[] arr = {"ab","ac"};
+        System.out.println(longestCommonPrefix(arr));
+    }
 
+    public static String longestCommonPrefix(String[] strs) {
+        int arrLength = strs.length-1;
+        if (strs[0].equals("") || arrLength == 0) {
+            return strs[0];
+        }
+        String res = "";
+        String str = strs[0];
 
+        for (int x = 0; x < str.length(); x++) {
+            for (int c = 1; c <= arrLength; c++) {
+                if (strs[c].length() <= x || str.charAt(x) != strs[c].charAt(x)) {
+                    return res;
+                }
+            }
+            res = res + str.charAt(x);
+        }
+        return res;
+    }
+
+    public static int lengthOfLastWord(String s) {
+        String[] arr = s.trim().split(" ");
+        return arr[arr.length - 1].length();
     }
 
 }
