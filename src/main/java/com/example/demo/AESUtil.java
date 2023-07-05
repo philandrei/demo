@@ -17,7 +17,6 @@ public class AESUtil {
     private static final int TAG_LENGTH_BIT = 128;
     private static final int IV_LENGTH = 12;
     private static final String ENCRYPT_ALG = "AES/GCM/NoPadding";
-
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
     public static SecretKey generateKey(int n) throws NoSuchAlgorithmException {
@@ -27,7 +26,7 @@ public class AESUtil {
         return secretKey;
     }
 
-    public static byte[] generateIv() {
+    public static byte[] generateIV() {
         byte[] iv = new byte[IV_LENGTH];
         new SecureRandom().nextBytes(iv);
         return iv;

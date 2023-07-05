@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.crypto.SecretKey;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Stack;
 
 import static com.example.demo.AESUtil.*;
 
@@ -14,18 +15,43 @@ public class DemoApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(DemoApplication.class, args);
-        SecureRandom random = new SecureRandom();
-        SecretKey secretKey = AESUtil.generateKey(256);
-        byte[] IV = generateIV();
-        random.nextBytes(IV);
-        String input = "Phil Andrei G. Silla";
-        byte[] encrypted = encryptWithPrefixIV(input, secretKey, IV);
-        String strEncrypted = Base64.getEncoder().encodeToString(encrypted);
-        System.out.println("Encrypted: " + strEncrypted);
-        String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
-        System.out.println("Decrypted: " + decrypted);
+//        SecureRandom random = new SecureRandom();
+//        SecretKey secretKey = AESUtil.generateKey(256);
+//        byte[] IV = generateIV();
+//        random.nextBytes(IV);
+//        String input = "Phil Andrei G. Silla";
+//        byte[] encrypted = encryptWithPrefixIV(input, secretKey, IV);
+//        String strEncrypted = Base64.getEncoder().encodeToString(encrypted);
+//        System.out.println("Encrypted: " + strEncrypted);
+//        String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
+//        System.out.println("Decrypted: " + decrypted);
 
+        System.out.println(isValid("()"));
+        System.out.println(isValid("()["));
+    }
 
+    public static boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.add(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                if (c == ')' && stack.peek() == '(') {
+                    stack.pop();
+                } else if (c == ']' && stack.peek() == '[') {
+                    stack.pop();
+                } else if (c == '}' && stack.peek() == '{') {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
     }
 
     public static void rightTriangle(int size) {
