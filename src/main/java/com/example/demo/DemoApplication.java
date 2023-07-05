@@ -14,41 +14,38 @@ public class DemoApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(DemoApplication.class, args);
-        String alg = "AES/GCM/NoPadding";
         SecureRandom random = new SecureRandom();
         SecretKey secretKey = AESUtil.generateKey(256);
-        byte[] IV = generateIv();
+        byte[] IV = generateIV();
         random.nextBytes(IV);
         String input = "Phil Andrei G. Silla";
         byte[] encrypted = encryptWithPrefixIV(input, secretKey, IV);
         String strEncrypted = Base64.getEncoder().encodeToString(encrypted);
-        System.out.println(strEncrypted);
+        System.out.println("Encrypted: " + strEncrypted);
         String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
         System.out.println("Decrypted: " + decrypted);
 
-        // right triangle
-//        for (int x = 0; x < 5; x++) {
-//            for (int c = 0; c <= x; c++) {
-//                System.out.print("*");
-//            }
-//            System.out.println();
-//        }
 
-        //fibonacci
-//        int z = 0;
-//        int x = 1;
-//        Scanner sc = new Scanner(System.in);
-//        System.out.print("Enter Fn: ");
-//        int param = sc.nextInt();
-//        for (int c = 1; c < param; c++) {
-//            int res = z + x;
-//            System.out.print(res + ((c + 1) != param ? "," : ""));
-//            z = x;
-//            x = res;
-//        }
-//        System.out.println(lengthOfLastWord("Hello World "));
-//        String[] arr = {"ab","ac"};
-//        System.out.println(longestCommonPrefix(arr));
+    }
+
+    public static void rightTriangle(int size) {
+        for (int x = 0; x < 5; x++) {
+            for (int c = 0; c <= x; c++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void fibonnaci(int param) {
+        int z = 0;
+        int x = 1;
+        for (int c = 1; c < param; c++) {
+            int res = z + x;
+            System.out.print(res + ((c + 1) != param ? "," : ""));
+            z = x;
+            x = res;
+        }
     }
 
     public static String longestCommonPrefix(String[] strs) {
