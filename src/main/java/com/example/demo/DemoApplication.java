@@ -16,21 +16,24 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Scanner;
 
+import static com.example.demo.AESUtil.*;
+
 @SpringBootApplication
 public class DemoApplication {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(DemoApplication.class, args);
         String alg = "AES/GCM/NoPadding";
         SecureRandom random = new SecureRandom();
         SecretKey secretKey = AESUtil.generateKey(256);
-        byte[] IV = new byte[16];
+        byte[] IV = generateIv();
         random.nextBytes(IV);
-        String input = "Phil";
-        String encrypted = AESUtil.encrypt(secretKey, alg, input, IV);
-        System.out.println(encrypted);
-        String decrypted = AESUtil.decrypt(secretKey, alg, encrypted);
-        System.out.println(decrypted);
+        String input = "09163407353";
+        byte[] encrypted = encryptWithPrefixIV(input,secretKey,IV);
+        String strEncrypted =Base64.getEncoder().encodeToString(encrypted);
+        System.out.println(strEncrypted);
+        String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
+        System.out.println("Decrypted: " + decrypted);
 
         // right triangle
 //        for (int x = 0; x < 5; x++) {
