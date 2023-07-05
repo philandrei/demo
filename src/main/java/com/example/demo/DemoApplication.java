@@ -3,18 +3,9 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Scanner;
 
 import static com.example.demo.AESUtil.*;
 
@@ -28,9 +19,9 @@ public class DemoApplication {
         SecretKey secretKey = AESUtil.generateKey(256);
         byte[] IV = generateIv();
         random.nextBytes(IV);
-        String input = "09163407353";
-        byte[] encrypted = encryptWithPrefixIV(input,secretKey,IV);
-        String strEncrypted =Base64.getEncoder().encodeToString(encrypted);
+        String input = "Phil Andrei G. Silla";
+        byte[] encrypted = encryptWithPrefixIV(input, secretKey, IV);
+        String strEncrypted = Base64.getEncoder().encodeToString(encrypted);
         System.out.println(strEncrypted);
         String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
         System.out.println("Decrypted: " + decrypted);

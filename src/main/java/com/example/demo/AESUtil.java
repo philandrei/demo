@@ -3,13 +3,13 @@ package com.example.demo;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.util.Arrays;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 
 public class AESUtil {
@@ -33,20 +33,17 @@ public class AESUtil {
         return iv;
     }
 
-    public static String hex(byte[] bytes){
+    public static String hex(byte[] bytes) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(byte b:bytes){
-            stringBuilder.append(String.format("%02x",b));
+        for (byte b : bytes) {
+            stringBuilder.append(String.format("%02x", b));
         }
         return stringBuilder.toString();
     }
 
     public static byte[] encryptWithPrefixIV(String pText, SecretKey secret, byte[] iv) throws Exception {
         byte[] cipherText = encrypt(secret, pText, iv);
-        byte[] cipherTextWithIv = ByteBuffer.allocate(iv.length + cipherText.length)
-                .put(iv)
-                .put(cipherText)
-                .array();
+        byte[] cipherTextWithIv = ByteBuffer.allocate(iv.length + cipherText.length).put(iv).put(cipherText).array();
         return cipherTextWithIv;
 
     }
@@ -56,18 +53,16 @@ public class AESUtil {
         Cipher cipher = Cipher.getInstance(ENCRYPT_ALG);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
         byte[] cipherText = cipher.doFinal(input.getBytes(UTF_8));
-
         return cipherText;
     }
 
 
     public static String decrypt(byte[] cipherText, SecretKey secretKey, byte[] iv) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-
         GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(TAG_LENGTH_BIT, iv);
         Cipher cipher = Cipher.getInstance(ENCRYPT_ALG);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
         byte[] plainText = cipher.doFinal(cipherText);
-        return new String(plainText,UTF_8);
+        return new String(plainText, UTF_8);
     }
 
     public static String decryptWithPrefixIV(String cText, SecretKey secret) throws Exception {
