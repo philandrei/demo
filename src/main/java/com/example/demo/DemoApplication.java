@@ -2,11 +2,11 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 
 import javax.crypto.SecretKey;
 import java.security.SecureRandom;
-import java.util.Base64;
-import java.util.Stack;
+import java.util.*;
 
 import static com.example.demo.AESUtil.*;
 
@@ -19,15 +19,35 @@ public class DemoApplication {
 //        SecretKey secretKey = AESUtil.generateKey(256);
 //        byte[] IV = generateIV();
 //        random.nextBytes(IV);
-//        String input = "Phil Andrei G. Silla";
+//        String input = "Vertere";
 //        byte[] encrypted = encryptWithPrefixIV(input, secretKey, IV);
 //        String strEncrypted = Base64.getEncoder().encodeToString(encrypted);
 //        System.out.println("Encrypted: " + strEncrypted);
 //        String decrypted = decryptWithPrefixIV(strEncrypted, secretKey);
 //        System.out.println("Decrypted: " + decrypted);
 
-        System.out.println(isValid("()"));
-        System.out.println(isValid("()["));
+
+//        System.out.println(isValid("()"));
+//        System.out.println(isValid("()["));
+    }
+
+    public static int removeDuplicates(int[] nums) {
+        List<Integer> l = new ArrayList<>();
+        int index = 0;
+        for (int c = 0; c < nums.length; c++) {
+            if(!l.contains(nums[c])){
+                l.add(nums[c]);
+            }
+        }
+        for (Integer x : l) {
+            nums[index] = x;
+            index++;
+        }
+        for (int c = index; c < nums.length - 1; c++) {
+            nums[c] = 0;
+        }
+
+        return index;
     }
 
     public static boolean isValid(String s) {
