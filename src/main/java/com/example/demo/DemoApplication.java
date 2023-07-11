@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 
 import javax.crypto.SecretKey;
+import java.lang.reflect.Array;
 import java.security.SecureRandom;
 import java.util.*;
 
@@ -29,13 +30,64 @@ public class DemoApplication {
 
 //        System.out.println(isValid("()"));
 //        System.out.println(isValid("()["));
+
+//        System.out.println(removeElement(new int[]{3, 2, 2, 3, 5}, 3));
+//        System.out.println(twoSum(new int[]{2, 7, 11, 15}, 18));
+//        int[] x = twoSum(new int[]{2, 7, 11, 15}, 18);
+
+//        boolean isDuplicate = containsNearbyDuplicate(new int[]{1, 2, 3, 1}, 3);
+//        System.out.println(isDuplicate);
+    }
+
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (k > nums.length) {
+            return false;
+        }
+        for (int c = 0; c < nums.length; c++) {
+            int d = c + k;
+            if (d >= nums.length) {
+                return false;
+            }
+            if (nums[c] == nums[d]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int[] twoSum(int[] nums, int target) {
+        for (int c = 0; c < nums.length; c++) {
+            for (int x = c + 1; x < nums.length; x++) {
+                if ((nums[c] + nums[x]) == target) {
+                    return new int[]{c, x};
+                }
+            }
+        }
+        return new int[]{0, 0};
+    }
+
+    public static int removeElement(int[] nums, int val) {
+        Set set = new HashSet();
+        int counter = 0;
+        for (int c = 0; c < nums.length; c++) {
+            if (nums[c] != val) {
+                if (nums[(c == 0 ? 0 : c--)] == val) {
+                    nums[(c == 0 ? 0 : c--)] = nums[c];
+                }
+            }
+        }
+
+        for (int x : nums) {
+            System.out.println("sep" + x);
+        }
+        return counter;
     }
 
     public static int removeDuplicates(int[] nums) {
         List<Integer> l = new ArrayList<>();
         int index = 0;
         for (int c = 0; c < nums.length; c++) {
-            if(!l.contains(nums[c])){
+            if (!l.contains(nums[c])) {
                 l.add(nums[c]);
             }
         }
